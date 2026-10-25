@@ -223,6 +223,21 @@
         }
         .cert-link:hover { background: rgba(99,102,241,0.15); color: #a5b4fc; }
 
+        .validation-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+        .validation-row code {
+            font-family: monospace; font-size: 0.75rem; color: #cbd5e1; word-break: break-all;
+            background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.1);
+            padding: 4px 8px; border-radius: 6px; user-select: all;
+        }
+        .copy-btn {
+            font-size: 0.75rem; font-family: inherit; color: var(--primary); cursor: pointer;
+            background: transparent; border: 1px solid rgba(99,102,241,0.3);
+            padding: 3px 10px; border-radius: 4px; transition: all 0.2s;
+        }
+        .copy-btn:hover { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+        .copy-btn.copied { color: #4ade80; border-color: rgba(74,222,128,0.4); }
+        .cert-link + .cert-link { margin-left: 6px; }
+
         footer {
             text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.9rem;
             border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px;
@@ -470,7 +485,6 @@
                             Automation & Cloud
                         </h4>
                         <div class="skill-tags">
-                            <span class="skill-tag">n8n</span>
                             <span class="skill-tag">AWS</span>
                             <span class="skill-tag">Cloudflare Tunnels</span>
                             <span class="skill-tag">Webhooks</span>
@@ -495,9 +509,11 @@
                     <div class="skill-group">
                         <h4>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            Data & Code
+                            Code and tools
                         </h4>
                         <div class="skill-tags">
+                            <span class="skill-tag">n8n</span>
+                            <span class="skill-tag">Replit</span>
                             <span class="skill-tag">Python</span>
                             <span class="skill-tag">SQL</span>
                             <span class="skill-tag">Pandas</span>
@@ -516,7 +532,12 @@
                         <div class="cert-body">
                             <div class="cert-name">AWS Certified AI Practitioner</div>
                             <div class="cert-meta">Amazon Web Services • Feb 2026 – Feb 2029</div>
-                            <a href="https://drive.google.com/file/d/1-3_UafZfYsM5N0YoNY-rBQcmD8F81ovf/view?usp=sharing" target="_blank" class="cert-link">View Certificate ↗</a>
+                            <div class="cert-meta">Validation Number:</div>
+                            <div class="validation-row">
+                                <code id="aws-validation">723a2263cfa140b592d79673908ee197</code>
+                                <button type="button" class="copy-btn" id="copy-validation" aria-label="Copy AWS validation number">Copy</button>
+                            </div>
+                            <a href="https://cp.certmetrics.com/amazon/en/public/verify/credential" target="_blank" rel="noopener" class="cert-link">Verify ↗</a>
                         </div>
                     </div>
 
@@ -558,5 +579,30 @@
             <p>© 2026 EzzEdden Nazzal. All rights reserved.</p>
         </footer>
     </div>
+    <script>
+        (function () {
+            var btn = document.getElementById('copy-validation');
+            var text = document.getElementById('aws-validation');
+            if (!btn || !text) return;
+            function done() {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+            }
+            function fallback() {
+                var r = document.createRange();
+                r.selectNodeContents(text);
+                var s = window.getSelection();
+                s.removeAllRanges(); s.addRange(r);
+                try { document.execCommand('copy'); done(); } catch (e) {}
+            }
+            btn.addEventListener('click', function () {
+                var value = text.textContent.trim();
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(value).then(done, fallback);
+                } else { fallback(); }
+            });
+        })();
+    </script>
 </body>
 </html>
